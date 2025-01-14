@@ -22,7 +22,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/"
+          path=""
           element={
             <ProtectedRoute>
               <Home />
