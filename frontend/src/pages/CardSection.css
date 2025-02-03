@@ -1,0 +1,56 @@
+/* CardSection.css */
+
+.card-section {
+  padding: 4rem 2rem;
+}
+
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;         
+  flex-wrap: nowrap;
+
+}
+
+
+.card {
+  background: #212529;
+  padding: 1rem;          
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  flex: 0 0 200px;         
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+
+.icon-wrapper {
+  width: 50px;             
+  height: 50px;
+  margin: 0 auto 0.60rem;   
+  border-radius: 50%;
+  background: radial-gradient(circle, #198754 10%, #212529);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.5rem;        
+}
+
+
+.card-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+    margin-top: 0.4rem;
+  font-size: 0.875rem;
+  color: #ffffff;
+}
+
