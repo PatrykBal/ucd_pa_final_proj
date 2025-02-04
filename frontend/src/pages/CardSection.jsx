@@ -11,7 +11,7 @@ const CardSection = () => {
   const cards = [
     {
       id: 1,
-      title: "Diaticians",
+      title: "Dieticians",
       description: "",
       icon: <FaAppleAlt />,
     },
