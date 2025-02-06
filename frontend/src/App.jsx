@@ -1,13 +1,14 @@
-import react from "react"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import { Container } from 'react-bootstrap'
-import Login from "./pages/Login"
-import Register from "./pages/Register"
-import Home from "./pages/Home"
-import NotFound from "./pages/NotFound"
-import ProtectedRoute from "./components/ProtectedRoute"
-import Header from './components/Header'
-import Footer from './components/Footer'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Container } from 'react-bootstrap';
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ProfileBio from "./components/ProfileBio";
 
 
 function Logout() {
@@ -23,7 +24,7 @@ function RegisterAndLogout() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <>
         <Header />
       </>
@@ -36,13 +37,14 @@ function App() {
         <Container>
           <Routes>
             <Route
-              path=""
+              path="/"
               element={
                 <ProtectedRoute>
                   <Home />
                 </ProtectedRoute>
               }
             />
+            <Route path="/profile" element={<ProfileBio />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<RegisterAndLogout />} />
@@ -53,7 +55,7 @@ function App() {
       <>
         <Footer />
       </>
-    </BrowserRouter>
+    </Router>
   );
 }
 
