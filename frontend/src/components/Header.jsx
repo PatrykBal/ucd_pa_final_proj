@@ -35,7 +35,7 @@ function Header() {
             <Nav.Link href="#action2" className="ms-3">
               Become a Provider
             </Nav.Link>
-            <Nav.Link href="#" className="ms-3">
+            <Nav.Link href="/login" className="ms-3">
               <i className="fas fa-user"></i>Login
             </Nav.Link>
             <Button variant="outline-success" className="btn-sm ms-3">
