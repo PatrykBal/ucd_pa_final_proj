@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaAppleAlt,
   FaDumbbell,
@@ -8,6 +9,13 @@ import {
 import "./CardSection.css";
 
 const CardSection = () => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (category) => {
+    const formattedCategory = category.toLowerCase().replace(/ /g, "-");
+    navigate(`/categories#${formattedCategory}`);
+  };
+
   const cards = [
     {
       id: 1,
@@ -51,7 +59,12 @@ const CardSection = () => {
     <section className="card-section">
       <div className="cards-container">
         {cards.map((card) => (
-          <div key={card.id} className="card">
+          <div
+            key={card.id}
+            className="card"
+            onClick={() => handleCardClick(card.title)}
+            style={{ cursor: "pointer" }}
+          >
             <div className="icon-wrapper">{card.icon}</div>
             <h3 className="card-title">{card.title}</h3>
             <p className="card-description">{card.description}</p>
