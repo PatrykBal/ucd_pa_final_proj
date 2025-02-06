@@ -1,28 +1,32 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Container } from 'react-bootstrap';
-import Profile from "./pages/Profile"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Container } from "react-bootstrap";
+import Profile from "./pages/Profile";
 import ProfileCategoriesAll from "./pages/ProfileCategoriesAll";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import ProfileBio from "./components/ProfileBio";
 
 
 function Logout() {
-  localStorage.clear()
-  return <Navigate to="/login" />
+  localStorage.clear();
+  return <Navigate to="/login" />;
 }
 
 function RegisterAndLogout() {
-  localStorage.clear()
-  return <Register />
+  localStorage.clear();
+  return <Register />;
 }
-
 
 function App() {
   return (
@@ -30,12 +34,7 @@ function App() {
       <>
         <Header />
       </>
-      <main
-        className="py-3"
-        style={{
-          backgroundColor: "  #000",
-        }}
-      >
+      <div className="app-content">
         <Container>
           <Routes>
             <Route
@@ -55,7 +54,7 @@ function App() {
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </Container>
-      </main>
+      </div>
       <>
         <Footer />
       </>
@@ -63,4 +62,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
