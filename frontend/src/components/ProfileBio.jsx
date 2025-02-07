@@ -1,10 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "./ProfileBio.css";
-import profiles from "../profiles";
 import { packageDetails, initialPackageState } from "../pricingData";
 import { reviewsData } from "../reviewsData";
+import axios from "axios";
 
-function ProfileBio({ profile }) {
+function ProfileBio() {
+  const { id } = useParams();
+  const [profile, setProfile] = useState();
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const { data } = await axios.get(`/api/profiles/${id}`);
+        console.log("Fetched profile:", data);
+        setProfile(data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    }
+    fetchProfile();
+  }, [id]);
+
+
   const [activePackage, setActivePackage] = useState(initialPackageState);
   const [showAllReviews, setShowAllReviews] = useState(false);
 
@@ -13,15 +31,13 @@ function ProfileBio({ profile }) {
   }
 
   // Pricing details for specific profile
-  const profilePricing = packageDetails[profile.id] || packageDetails[1]; 
+  const profilePricing = packageDetails[profile.id] || packageDetails[1];
 
   const displayedReviews = showAllReviews
     ? reviewsData
     : reviewsData.slice(0, 2);
 
-  const renderStars = (rating) => {
-    return "⭐".repeat(rating);
-  };
+  const renderStars = (rating) => "⭐".repeat(rating);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -56,13 +72,17 @@ function ProfileBio({ profile }) {
               Basic
             </button>
             <button
-              className={`tab-btn ${activePackage === "standard" ? "active" : ""}`}
+              className={`tab-btn ${
+                activePackage === "standard" ? "active" : ""
+              }`}
               onClick={() => setActivePackage("standard")}
             >
               Standard
             </button>
             <button
-              className={`tab-btn ${activePackage === "premium" ? "active" : ""}`}
+              className={`tab-btn ${
+                activePackage === "premium" ? "active" : ""
+              }`}
               onClick={() => setActivePackage("premium")}
             >
               Premium
@@ -73,9 +93,11 @@ function ProfileBio({ profile }) {
             <div className="package-details">
               <h3>{profilePricing[activePackage].title}</h3>
               <ul>
-                {profilePricing[activePackage].features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
+                {profilePricing[activePackage].features.map(
+                  (feature, index) => (
+                    <li key={index}>{feature}</li>
+                  )
+                )}
               </ul>
               <p className="price">{profilePricing[activePackage].price}</p>
               <button className="purchase-btn">Purchase</button>

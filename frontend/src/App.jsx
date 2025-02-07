@@ -17,7 +17,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProfileBio from "./components/ProfileBio";
 
-
 function Logout() {
   localStorage.clear();
   return <Navigate to="/login" />;

@@ -1,9 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import profiles from "../profiles";
 import "./ProfileCategories.css";
+import axios from "axios";
 
 function ProfileCategories() {
+
+    const [profiles, setProfiles] = useState([]);
+
+    useEffect(() => {
+      async function fetchProfiles() {
+        const { data } = await axios.get("/api/profiles/");
+
+        setProfiles(data);
+      }
+
+      fetchProfiles();
+    }, []);
+
   const location = useLocation();
 
   useEffect(() => {

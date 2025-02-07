@@ -51,7 +51,7 @@ const Header = () => {
               Login
             </Link>
             <Link
-              to="/signup"
+              to="/register"
               className="signup-btn"
               onClick={() => setIsMenuOpen(false)}
             >
