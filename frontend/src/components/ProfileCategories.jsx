@@ -1,89 +1,85 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { api } from "../services/api";
+import { PACKAGE_ENDPOINTS } from "../constants";
 import "./ProfileCategories.css";
-import axios from "axios";
 
 function ProfileCategories() {
-
-    const [profiles, setProfiles] = useState([]);
-
-    useEffect(() => {
-      async function fetchProfiles() {
-        const { data } = await axios.get("/api/profiles/");
-
-        setProfiles(data);
-      }
-
-      fetchProfiles();
-    }, []);
-
-  const location = useLocation();
+  const [profiles, setProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
-    const hash = location.hash;
-    if (hash) {
-      const element = document.getElementById(hash.slice(1));
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
-        }, 100);
+    const fetchProfiles = async () => {
+      try {
+        const response = await api.get(PACKAGE_ENDPOINTS.PROVIDERS);
+        setProfiles(response.data);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+        setError("Failed to load profiles");
+      } finally {
+        setLoading(false);
       }
-    }
-  }, [location]);
+    };
 
-  // Helper function to format category ID
-  const formatCategoryId = (category) =>
-    category.toLowerCase().replace(/ /g, "-");
+    fetchProfiles();
+  }, []);
 
-  // Groups profiles by their description/category
-  const categories = {
-    Dietician: profiles.filter((p) => p.description === "Dietician"),
-    "Personal Trainer": profiles.filter(
-      (p) => p.description === "Personal Trainer"
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+  const categories = [
+    "all",
+    ...new Set(
+      profiles.map((profile) => profile.specialization).filter(Boolean)
     ),
-    Nutritionist: profiles.filter((p) => p.description === "Nutritionist"),
-    "Physical Therapist": profiles.filter(
-      (p) => p.description === "Physical Therapist"
-    ),
-    Psychologist: profiles.filter((p) => p.description === "Psychologist"),
-    "Nutritional Therapist": profiles.filter(
-      (p) => p.description === "Nutritional Therapist"
-    ),
-  };
+  ];
+
+  const filteredProfiles =
+    selectedCategory === "all"
+      ? profiles
+      : profiles.filter(
+          (profile) => profile.specialization === selectedCategory
+        );
 
   return (
-    <div className="categories-container">
-      {Object.entries(categories).map(([category, categoryProfiles]) => (
-        <div
-          key={category}
-          className="category-section"
-          id={formatCategoryId(category + "s")}
-        >
-          <h2 className="category-title">{category}s</h2>
-          <div className="category-cards">
-            {categoryProfiles.map((profile) => (
-              <Link
-                to={`/profile/${profile.id}`}
-                key={profile.id}
-                className="profile-card-link"
-              >
-                <div className="category-profile-card">
-                  <img
-                    src={profile.image}
-                    alt={profile.name}
-                    className="category-profile-image"
-                  />
-                  <div className="category-profile-info">
-                    <h3>{profile.name}</h3>
-                    <p>{profile.description}</p>
-                    <p className="profile-specialty">{profile.specialty}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
+    <div className="profile-categories">
+      <div className="category-filters">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`category-button ${
+              selectedCategory === category ? "active" : ""
+            }`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category === "all" ? "All Categories" : category}
+          </button>
+        ))}
+      </div>
+
+      <div className="profiles-grid">
+        {filteredProfiles.map((profile, index) => (
+          <div key={`profile-${profile.id || index}`} className="profile-card">
+            <img
+              src={profile.avatar || ""}
+              alt={`${profile.user.first_name} ${profile.user.last_name}`}
+              className="profile-image"
+            />
+            <div className="profile-info">
+              <h3>
+                {profile.user.first_name} {profile.user.last_name}
+              </h3>
+              <p className="category">{profile.specialization}</p>
+              <p className="experience">
+                {profile.experience_years} years experience
+              </p>
+              <p className="description">{profile.qualifications}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import "./ProfileCards.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { api } from "../services/api";
+import { PACKAGE_ENDPOINTS } from "../constants";
 
 function ProfileCards() {
   const [profiles, setProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        const response = await api.get(PACKAGE_ENDPOINTS.PROVIDERS);
+        setProfiles(response.data);
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+        setError("Failed to load profiles");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    async function fetchProfiles ()   {
-       const { data } = await axios.get("/api/profiles/");
-       
-       setProfiles(data);
-    }
+    fetchProfiles();
+  }, []);
 
-    fetchProfiles()
-
-  }, [])
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <section className="profile-cards-section">

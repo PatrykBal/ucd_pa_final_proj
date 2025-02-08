@@ -16,6 +16,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProfileBio from "./components/ProfileBio";
+import { AuthProvider } from "./context/AuthContext";
+import ProfileCategories from "./components/ProfileCategories";
+import "./styles/index.css";
 
 function Logout() {
   localStorage.clear();
@@ -30,33 +33,41 @@ function RegisterAndLogout() {
 function App() {
   return (
     <Router>
-      <>
-        <Header />
-      </>
-      <div className="app-content">
-        <Container>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/profile/:id" element={<Profile />} />
-            <Route path="/categories" element={<ProfileCategoriesAll />} />
-            <Route path="/profile" element={<ProfileBio />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/register" element={<RegisterAndLogout />} />
-            <Route path="*" element={<NotFound />}></Route>
-          </Routes>
-        </Container>
-      </div>
-      <>
-        <Footer />
-      </>
+      <AuthProvider>
+        <div className="app">
+          <Header />
+          <main className="app-content">
+            <Container>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute>
+                      <Home />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/profile/:id" element={<Profile />} />
+                <Route path="/categories" element={<ProfileCategoriesAll />} />
+                <Route path="/profile" element={<ProfileBio />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
+                <Route path="/register" element={<Register />} />
+                <Route
+                  path="/profiles"
+                  element={
+                    <ProtectedRoute>
+                      <ProfileCategories />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="*" element={<NotFound />}></Route>
+              </Routes>
+            </Container>
+          </main>
+          <Footer />
+        </div>
+      </AuthProvider>
     </Router>
   );
 }
