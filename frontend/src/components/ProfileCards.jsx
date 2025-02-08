@@ -12,10 +12,12 @@ function ProfileCards() {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await api.get(PACKAGE_ENDPOINTS.PROVIDERS);
+        const response = await api.get(
+          `${PACKAGE_ENDPOINTS.PROVIDERS}?include_user=true`
+        );
         setProfiles(response.data);
+        setError(null);
       } catch (error) {
-        console.error("Error fetching profiles:", error);
         setError("Failed to load profiles");
       } finally {
         setLoading(false);
@@ -25,26 +27,49 @@ function ProfileCards() {
     fetchProfiles();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <div className="loading">Loading...</div>;
+  if (error) return <div className="error">{error}</div>;
+
+  
+  const displayProfiles = profiles.slice(0, 6);
 
   return (
     <section className="profile-cards-section">
       <h2 className="profile-section-title">Popular Health Providers</h2>
       <div className="profile-cards-container">
-        {profiles.map((profile) => (
-          <div key={profile.id} className="profile-card">
-            <h3 className="profile-card-name">{profile.name}</h3>
-            <p className="profile-card-description">{profile.description}</p>
-            <Link to={`/profile/${profile.id}`}>
-              <img
-                src={profile.image}
-                alt={profile.name}
-                className="profile-card-image"
-              />
-            </Link>
-          </div>
-        ))}
+        <div className="profile-cards-grid">
+          {displayProfiles.map((profile, index) => (
+            <div
+              key={`profile-${profile.id || index}`}
+              className="profile-card"
+            >
+              <div className="profile-image-wrapper">
+                <img
+                  src={profile.profile_image || "/default-avatar.png"}
+                  alt={`${profile.user?.first_name || "Provider"}`}
+                  className="profile-image"
+                  onError={(e) => {
+                    e.target.src = "/default-avatar.png";
+                    e.target.onerror = null;
+                  }}
+                />
+              </div>
+              <div className="profile-info">
+                <h3>
+                  {profile.user?.first_name} {profile.user?.last_name}
+                </h3>
+                <p className="specialization">
+                  {profile.specialization || "No specialization"}
+                </p>
+                <p className="experience">
+                  {profile.experience_years
+                    ? `${profile.experience_years} years experience`
+                    : "Experience not specified"}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
