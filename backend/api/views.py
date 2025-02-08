@@ -98,13 +98,15 @@ class ServiceProviderViewSet(viewsets.ModelViewSet):
 class PackageViewSet(viewsets.ModelViewSet):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
-    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        service_provider = ServiceProvider.objects.get(user=self.request.user)
+        serializer.save(service_provider=service_provider)
 
     def get_queryset(self):
-
-        service_provider_id = self.request.query_params.get('service_provider', None)
-        if service_provider_id is not None:
-            return Package.objects.filter(service_provider_id=service_provider_id)
+        user = self.request.user
+        if user.is_authenticated:
+            return Package.objects.filter(service_provider__user=user)
         return Package.objects.none()
 
 class PackageSubscriptionViewSet(viewsets.ModelViewSet):

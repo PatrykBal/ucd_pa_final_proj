@@ -18,6 +18,7 @@ import Footer from "./components/Footer";
 import ProfileBio from "./components/ProfileBio";
 import { AuthProvider } from "./context/AuthContext";
 import ProfileCategories from "./components/ProfileCategories";
+import Dashboard from "./pages/Dashboard";
 import "./styles/index.css";
 
 function Logout() {
@@ -39,28 +40,22 @@ function App() {
           <main className="app-content">
             <Container>
               <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <ProtectedRoute>
-                      <Home />
-                    </ProtectedRoute>
-                  }
-                />
+                <Route path="/" element={<Home />} />
                 <Route path="/categories" element={<ProfileCategoriesAll />} />
                 <Route path="/profile" element={<ProfileBio />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/profiles" element={<ProfileCategories />} />
+                <Route path="/providers/:id" element={<ProfileBio />} />
                 <Route
-                  path="/profiles"
+                  path="/dashboard"
                   element={
                     <ProtectedRoute>
-                      <ProfileCategories />
+                      <Dashboard />
                     </ProtectedRoute>
                   }
                 />
-                <Route path="/providers/:id" element={<ProfileBio />} />
                 <Route path="*" element={<NotFound />}></Route>
               </Routes>
             </Container>
