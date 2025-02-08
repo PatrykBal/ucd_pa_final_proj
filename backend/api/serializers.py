@@ -42,10 +42,14 @@ class UserSerializer(serializers.ModelSerializer):
         user.profile.save()
         return user
 
+
 class ServiceProviderSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    profile_image = serializers.ImageField(required=False)
+
     class Meta:
         model = ServiceProvider
-        fields = ['user', 'specialization', 'experience_years', 'qualifications']
+        fields = ['id', 'user', 'specialization', 'experience_years', 'qualifications', 'profile_image']
         read_only_fields = ['user']
 
     def create(self, validated_data):

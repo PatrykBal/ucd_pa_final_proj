@@ -1,5 +1,7 @@
 .profile-categories {
-  padding: 20px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .category-filters {
@@ -11,62 +13,107 @@
 
 .category-button {
   padding: 8px 16px;
+  border: 1px solid #ddd;
   border-radius: 20px;
   background: white;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .category-button.active {
-  background: #007bff;
+  background: #198754;
   color: white;
-  border-color: #0056b3;
 }
 
 .profiles-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
+  margin-bottom: 20px;
 }
 
 .profile-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
   background: white;
+  border-radius: 12px;
+  overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+}
+
+.profile-image-wrapper {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  background: #f5f5f5;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .profile-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+  transform-origin: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .profile-info {
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
 }
 
 .profile-info h3 {
-  margin: 0 0 10px 0;
-  color: #333;
+  margin: 0;
+  font-size: 1.1rem;
+  color: #ffffff;
+  line-height: 1.2;
 }
 
-.category {
+.specialization {
   color: #666;
-  font-size: 0.9em;
-  margin: 5px 0;
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .experience {
-  color: #007bff;
+  color: #198754;
+  font-size: 0.9rem;
   font-weight: 500;
-  margin: 5px 0;
+  margin: 0;
+  line-height: 1.4;
 }
 
-.description {
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
   color: #666;
-  font-size: 0.9em;
-  margin-top: 10px;
-  line-height: 1.4;
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  color: #dc3545;
+  font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profiles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }

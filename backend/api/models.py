@@ -30,15 +30,16 @@ class ServiceProvider(models.Model):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='service_provider')
-    specialization = models.CharField(max_length=2, choices=SPECIALIZATION_CHOICES)
-    experience_years = models.PositiveIntegerField(default=0)
-    qualifications = models.TextField(blank=True)
+    specialization = models.CharField(max_length=100)
+    experience_years = models.IntegerField()
+    qualifications = models.TextField()
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
     total_reviews = models.PositiveIntegerField(default=0)
     is_verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.username} - {self.get_specialization_display()}"
+        return f"{self.user.username}'s provider profile"
     
 class Package(models.Model):
     PACKAGE_TYPES = [

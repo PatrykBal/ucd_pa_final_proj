@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers import *
 import logging
+from rest_framework.parsers import MultiPartParser, FormParser
 
 logger = logging.getLogger(__name__)
 
@@ -82,6 +83,16 @@ class ServiceProviderViewSet(viewsets.ModelViewSet):
     queryset = ServiceProvider.objects.all()
     serializer_class = ServiceProviderSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get_queryset(self):
+        return ServiceProvider.objects.select_related('user', 'user__profile').all()
+
+    def perform_update(self, serializer):
+        if 'profile_image' in self.request.FILES:
+            serializer.save(profile_image=self.request.FILES['profile_image'])
+        else:
+            serializer.save()
 
 class PackageViewSet(viewsets.ModelViewSet):
     queryset = Package.objects.all()
