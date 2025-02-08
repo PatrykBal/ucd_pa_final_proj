@@ -7,6 +7,7 @@ from .models import *
 from .serializers import *
 import logging
 from rest_framework.parsers import MultiPartParser, FormParser
+from django_filters import rest_framework as filters
 
 logger = logging.getLogger(__name__)
 
@@ -97,10 +98,14 @@ class ServiceProviderViewSet(viewsets.ModelViewSet):
 class PackageViewSet(viewsets.ModelViewSet):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(service_provider=self.request.user.service_provider)
+    def get_queryset(self):
+
+        service_provider_id = self.request.query_params.get('service_provider', None)
+        if service_provider_id is not None:
+            return Package.objects.filter(service_provider_id=service_provider_id)
+        return Package.objects.none()
 
 class PackageSubscriptionViewSet(viewsets.ModelViewSet):
     queryset = PackageSubscription.objects.all()
@@ -123,18 +128,18 @@ class ReviewViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Review.objects.all()
-        package_id = self.request.query_params.get('package', None)
-        if package_id is not None:
-            queryset = queryset.filter(package_id=package_id)
-        return queryset
+
+        service_provider_id = self.request.query_params.get('service_provider', None)
+        if service_provider_id is not None:
+            return Review.objects.filter(service_provider_id=service_provider_id)
+        return Review.objects.none()
 
     def perform_create(self, serializer):
         # Gets the service provider from the request data
         provider_id = self.request.data.get('service_provider')
         service_provider = ServiceProvider.objects.get(id=provider_id)
         
-        # Save the review with the current user as the client
+        # Saves the review with the current user as the client
         serializer.save(
             client=self.request.user,
             service_provider=service_provider

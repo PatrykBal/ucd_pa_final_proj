@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./ProfileCategories.css";
 import { api } from "../services/api";
 import { PACKAGE_ENDPOINTS } from "../constants";
-import "./ProfileCategories.css";
 
 function ProfileCategories() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfiles = async () => {
@@ -15,6 +17,7 @@ function ProfileCategories() {
         const response = await api.get(
           `${PACKAGE_ENDPOINTS.PROVIDERS}?include_user=true`
         );
+        console.log("Fetched profiles:", response.data);
         setProfiles(response.data);
         setError(null);
       } catch (error) {
@@ -26,6 +29,11 @@ function ProfileCategories() {
 
     fetchProfiles();
   }, []);
+
+  const handleCardClick = (providerId) => {
+    console.log("Navigating to provider:", providerId);
+    navigate(`/providers/${providerId}/`);
+  };
 
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">{error}</div>;
@@ -46,6 +54,7 @@ function ProfileCategories() {
 
   return (
     <div className="profile-categories">
+      <h2>Health Providers</h2>
       <div className="category-filters">
         {categories.map((category) => (
           <button
@@ -62,7 +71,12 @@ function ProfileCategories() {
 
       <div className="profiles-grid">
         {filteredProfiles.map((profile, index) => (
-          <div key={`profile-${profile.id || index}`} className="profile-card">
+          <div
+            key={`profile-${profile.id || index}`}
+            className="profile-card"
+            onClick={() => handleCardClick(profile.id)}
+            style={{ cursor: "pointer" }}
+          >
             <div className="profile-image-wrapper">
               <img
                 src={profile.profile_image || "/default-avatar.png"}

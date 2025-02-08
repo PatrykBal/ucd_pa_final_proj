@@ -49,7 +49,9 @@ class ServiceProviderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ServiceProvider
-        fields = ['id', 'user', 'specialization', 'experience_years', 'qualifications', 'profile_image']
+        fields = ['id', 'user', 'specialization', 'experience_years', 
+                 'qualifications', 'bio_description', 'profile_image', 
+                 'rating', 'total_reviews', 'is_verified']
         read_only_fields = ['user']
 
     def create(self, validated_data):
@@ -60,7 +62,8 @@ class PackageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Package
-        fields = '__all__'
+        fields = ['id', 'name', 'package_type', 'price', 'duration_months', 
+                 'features', 'is_active', 'service_provider']
 
 class PackageSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,12 +72,19 @@ class PackageSubscriptionSerializer(serializers.ModelSerializer):
         read_only_fields = ['client']
 
 class ReviewSerializer(serializers.ModelSerializer):
+    client_name = serializers.SerializerMethodField()
+    package_details = PackageSerializer(source='package', read_only=True)
     client = UserSerializer(read_only=True)
 
     class Meta:
         model = Review
-        fields = ['id', 'client', 'service_provider', 'package', 'rating', 'comment', 'created_at']
-        read_only_fields = ['client']
+        fields = ['id', 'client', 'service_provider', 'package', 'rating', 
+                 'comment', 'created_at', 'client_name', 'package_details']
+
+    def get_client_name(self, obj):
+        if obj.client and hasattr(obj.client, 'first_name'):
+            return f"{obj.client.first_name} {obj.client.last_name}".strip() or "Anonymous"
+        return "Anonymous"
 
     def validate(self, data):
         user = self.context['request'].user

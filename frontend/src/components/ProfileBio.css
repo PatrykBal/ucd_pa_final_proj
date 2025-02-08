@@ -5,6 +5,7 @@
   padding: 2rem;
   background-color: #000000;
   min-height: 100vh;
+  padding-top: 80px; 
 }
 
 .profile-bio-card {
@@ -48,6 +49,30 @@
   color: #ffffff;
 }
 
+.bio-description {
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.verified-badge {
+  color: #198754;
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.rating-text {
+  color: #adb5bd;
+}
+
 .contact-btn {
   background-color: #198754;
   color: #fff;
@@ -57,14 +82,11 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin-top: 1rem;
 }
 
 .contact-btn:hover {
   background-color: #20ac6b;
-}
-
-.pricing-content {
-  transition: all 0.3s ease;
 }
 
 .pricing-card {
@@ -90,6 +112,7 @@
   background: #198754;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: white;
 }
 
 .tab-btn:hover {
@@ -123,6 +146,12 @@
   color: #ffffff;
 }
 
+.package-name {
+  color: #198754;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
 .price {
   font-size: 2.5rem;
   font-weight: bold;
@@ -149,6 +178,7 @@
   margin: 20px 0;
   padding: 20px;
   background: #212529;
+  border: 1px #ffffff solid;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -175,16 +205,37 @@
   color: #ffffff;
 }
 
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid #444;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
 .review-header h4 {
   color: #ffffff;
+  margin: 0;
 }
 
 .review-comment {
   color: #ffffff;
+  margin: 0.5rem 0;
 }
 
 .review-date {
   color: #888;
+  font-size: 0.9rem;
 }
 
 .show-more-btn {
@@ -196,14 +247,12 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin-top: 1rem;
+  width: 100%;
 }
 
 .show-more-btn:hover {
   background-color: #20ac6b;
-}
-
-.review-item {
-  border-bottom: 1px solid #444;
 }
 
 @keyframes fadeIn {
@@ -215,4 +264,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #ffffff;
+  font-size: 1.2rem;
 }

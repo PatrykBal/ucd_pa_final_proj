@@ -33,6 +33,7 @@ class ServiceProvider(models.Model):
     specialization = models.CharField(max_length=100)
     experience_years = models.IntegerField()
     qualifications = models.TextField()
+    bio_description = models.TextField(blank=True, null=True)  # Added this field
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
     total_reviews = models.PositiveIntegerField(default=0)
@@ -51,7 +52,6 @@ class Package(models.Model):
     service_provider = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE, related_name='packages')
     name = models.CharField(max_length=100)
     package_type = models.CharField(max_length=10, choices=PACKAGE_TYPES)
-    description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     duration_months = models.PositiveIntegerField()
     features = models.JSONField()

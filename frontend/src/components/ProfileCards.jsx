@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ProfileCards.css";
 import { Link } from "react-router-dom";
 import { api } from "../services/api";
@@ -8,6 +9,7 @@ function ProfileCards() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfiles = async () => {
@@ -27,10 +29,13 @@ function ProfileCards() {
     fetchProfiles();
   }, []);
 
+  const handleCardClick = (providerId) => {
+    navigate(`/providers/${providerId}`);
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  
   const displayProfiles = profiles.slice(0, 6);
 
   return (
@@ -42,6 +47,8 @@ function ProfileCards() {
             <div
               key={`profile-${profile.id || index}`}
               className="profile-card"
+              onClick={() => handleCardClick(profile.id)}
+              style={{ cursor: "pointer" }}
             >
               <div className="profile-image-wrapper">
                 <img

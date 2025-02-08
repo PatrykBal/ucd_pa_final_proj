@@ -47,7 +47,6 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="/profile/:id" element={<Profile />} />
                 <Route path="/categories" element={<ProfileCategoriesAll />} />
                 <Route path="/profile" element={<ProfileBio />} />
                 <Route path="/login" element={<Login />} />
@@ -61,6 +60,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route path="/providers/:id" element={<ProfileBio />} />
                 <Route path="*" element={<NotFound />}></Route>
               </Routes>
             </Container>
