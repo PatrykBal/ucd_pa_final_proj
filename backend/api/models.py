@@ -23,16 +23,16 @@ class ServiceProvider(models.Model):
     SPECIALIZATION_CHOICES = [
         ('PT', 'Personal Trainer'),
         ('NT', 'Nutritionist'),
-        ('YT', 'Yoga Teacher'),
-        ('FT', 'Fitness Trainer'),
-        ('WC', 'Wellness Coach'),
+        ('PS', 'Psychologist'),
+        ('PH', 'Physical Therapist'),
+        ('NU', 'Nutritional Therapist'),
+        ('DI', 'Dietician'),
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='service_provider')
     specialization = models.CharField(max_length=2, choices=SPECIALIZATION_CHOICES)
     experience_years = models.PositiveIntegerField(default=0)
-    qualifications = models.TextField()
-    certifications = models.TextField(blank=True)
+    qualifications = models.TextField(blank=True)
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
     total_reviews = models.PositiveIntegerField(default=0)
     is_verified = models.BooleanField(default=False)
@@ -41,7 +41,7 @@ class ServiceProvider(models.Model):
         return f"{self.user.username} - {self.get_specialization_display()}"
     
 class Package(models.Model):
-    PACKAGE_TYPE_CHOICES = [
+    PACKAGE_TYPES = [
         ('BASIC', 'Basic'),
         ('STANDARD', 'Standard'),
         ('PREMIUM', 'Premium'),
@@ -49,11 +49,11 @@ class Package(models.Model):
 
     service_provider = models.ForeignKey(ServiceProvider, on_delete=models.CASCADE, related_name='packages')
     name = models.CharField(max_length=100)
-    package_type = models.CharField(max_length=10, choices=PACKAGE_TYPE_CHOICES)
+    package_type = models.CharField(max_length=10, choices=PACKAGE_TYPES)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    duration_months = models.PositiveIntegerField(default=1)
-    features = models.JSONField(default=list)  
+    duration_months = models.PositiveIntegerField()
+    features = models.JSONField()
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -69,7 +69,7 @@ class PackageSubscription(models.Model):
     ]
 
     client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscriptions')
-    package = models.ForeignKey(Package, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='subscriptions')
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='ACTIVE')
