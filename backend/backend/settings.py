@@ -30,7 +30,19 @@ SECRET_KEY = 'django-insecure-nv)_8ad#ewwj2-s_f*le$!+m59y^@(a$m*2)w(zj@mj5fc*^)y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# Add this to your environment variables in Render
+ALLOWED_HOSTS = [
+    'ucd-pa-final-proj.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
+
+# Or use environment variable
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') + [
+    'ucd-pa-final-proj.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -99,15 +111,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-        'OPTIONS': {
-            'sslmode': 'require'  
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
