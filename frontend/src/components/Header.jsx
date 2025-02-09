@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import "./Header.css";
+import "./header.css";
 import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
