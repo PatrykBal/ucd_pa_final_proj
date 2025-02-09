@@ -8,4 +8,10 @@
 
 # Overview
 
- Project is based ona web app which allows health service providers to sell their plans online to clients. Didnt have enough time to finish it but 
+ Project is based ona web app which allows health service providers to sell their plans online to clients. Didnt have enough time to finish it fully.
+
+ i have added log in and log out features for client and provider.
+
+ provider can create and delete packages and edit profile. from dash 
+
+ from backend admin client can asubscribe to a package and then review it. 
