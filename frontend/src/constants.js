@@ -4,19 +4,19 @@ export const ACCESS_TOKEN = "accessToken";
 export const REFRESH_TOKEN = "refreshToken";
 
 export const AUTH_ENDPOINTS = {
-  LOGIN: "/api/token/",
-  REGISTER_CLIENT: "/api/register/client/",
-  REGISTER_PROVIDER: "/api/register/provider/",
-  PROFILE: "/api/profile/me/",
-  REFRESH: "/api/token/refresh/",
+  LOGIN: "/token/", // Remove /api/
+  REGISTER_CLIENT: "/register/client/",
+  REGISTER_PROVIDER: "/register/provider/",
+  PROFILE: "/profile/me/",
+  REFRESH: "/token/refresh/",
 };
 
 export const PACKAGE_ENDPOINTS = {
-  PROVIDERS: "/api/providers/",
-  PACKAGES: "/api/packages/",
-  SUBSCRIPTIONS: "/api/subscriptions/",
-  REVIEWS: "/api/reviews/",
-  WORKOUT_PLANS: "/api/workout-plans/",
+  PROVIDERS: "/providers/", // Remove /api/
+  PACKAGES: "/packages/",
+  SUBSCRIPTIONS: "/subscriptions/",
+  REVIEWS: "/reviews/",
+  WORKOUT_PLANS: "/workout-plans/",
 };
 
 export const USER_TYPES = {
