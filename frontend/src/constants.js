@@ -1,4 +1,4 @@
-export const BASE_URL = "http://127.0.0.1:8000";
+export const BASE_URL = "https://ucd-pa-final-proj.onrender.com";
 
 export const ACCESS_TOKEN = "accessToken";
 export const REFRESH_TOKEN = "refreshToken";

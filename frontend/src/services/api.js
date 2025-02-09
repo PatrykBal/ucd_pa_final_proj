@@ -1,8 +1,8 @@
 import axios from "axios";
-import { BASE_URL } from "../constants";
 
-const api = axios.create({
-  baseURL: `${BASE_URL}/api`,
+export const api = axios.create({
+  baseURL: "https://ucd-pa-final-proj.onrender.com",
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -51,5 +51,3 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export { api };
