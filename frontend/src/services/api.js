@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const api = axios.create({
-  baseURL: "https://ucd-pa-final-proj.onrender.com",
+const api = axios.create({
+  baseURL: "https://ucd-pa-final-proj.onrender.com/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -51,3 +51,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export { api };
